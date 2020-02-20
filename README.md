@@ -7,6 +7,7 @@
     - Dependencies: Spring Web
 2. Create a basic simple GET endpoint that returns a "hello world" string.
     - Refer to https://dzone.com/articles/hello-world-program-spring-boot
+
 3. Run your application, verify the hello-world endpoint using Postman.
   ```
    mvn clean install
@@ -20,13 +21,11 @@
      - Pet Store
      - Music Store
      - Game Store
-     - or a store of something"
-     ```
-   I choose a e-Book Store 
-     ```
+     - or a store of something  
+ ``I choose Book Store`` 
 2. Create models for your store using [Lombok](https://www.baeldung.com/intro-to-project-lombok)
-
-3. Create CRUD endpoints that return in content type "application/json"
+3. Create a global list to persist your data in memory.
+4. Create CRUD endpoints that return in content type "application/json"
     - One POST endpoint to add item to your global list.
     - One GET endpoint to retrieve items from your global list.
     - One PUT endpoint to update item in your global list.
@@ -96,7 +95,6 @@
     </table>
 
     > Nouns: 
-    > - ISBN
     > - Title
     > - Author
     > - Genre
@@ -104,13 +102,86 @@
     > - Rating
   
     > Verbs:
-    > - Buy
-    > - Give Rating
-    > - View
-    > - Delete book from store (Admin)
-4. Run your application, verify the CRUD endpoints using Postman/curl.
-
-5. Check in your source code in your GitHub repo.
+    > - Add book
+    > - View book
+    > - Give rating
+    > - Update price
+    > - Delete book 
+5. Run your application, verify the CRUD endpoints using Postman/curl.  
+   - Postman 
+        - Import the postman collection
+        - Try to send all request
+   - Curl
+        - `curl -I -X POST http://localhost:8080/book/generate`
+        - `curl -s -X GET http://localhost:8080/books | jq`
+            ```json
+            [
+                {
+                    "id": 0,
+                    "title": "Elon Meow",
+                    "author": "Khaman",
+                    "genre": "Documentary",
+                    "price": 1010.1,
+                    "rating": 100.0
+                },
+                {
+                    "id": 1,
+                    "title": "1",
+                    "author": "1",
+                    "genre": "Math",
+                    "price": 1.0,
+                    "rating": 1.0
+                }
+            ]
+          ```
+        - `curl -H "Content-Type: application/json" -d "{ \"id\":2, \"title\": \"tajuk\", \"author\": \"penulis\", \"genre\": \"jenis\", \"price\": 123.11, \"rating\": 10 }" http://localhost:8080/book/create`
+        - `curl -s -X GET http://localhost:8080/book/2 | jq`
+            ```json
+            {                     
+              "id": 2,            
+              "title": "tajuk",   
+              "author": "penulis",
+              "genre": "jenis",   
+              "price": 123.11,    
+              "rating": 10        
+            }
+          ```
+        - `curl -I -X PUT http://localhost:8080/book/edit/price/0?price=777.77`
+        - `curl -I -X PUT http://localhost:8080/book/edit/rating/0?rating=99`
+        - `curl -s -X GET http://localhost:8080/book/0 | jq`
+           ```json
+          {
+            "id": 0,
+            "title": "Elon Meow",
+            "author": "Khaman",
+            "genre": "Documentary",
+            "price": 777.77,
+            "rating": 99
+          }
+          ```
+        - `curl -I -X DELETE http://localhost:8080/book/delete/2`
+        - `curl -s -X GET http://localhost:8080/books | jq`
+            ```json
+           [
+               {
+                   "id": 0,
+                   "title": "Elon Meow",
+                   "author": "Khaman",
+                   "genre": "Documentary",
+                   "price": 777.77,
+                   "rating": 99.0
+               },
+               {
+                   "id": 1,
+                   "title": "1",
+                   "author": "1",
+                   "genre": "Math",
+                   "price": 1.0,
+                   "rating": 1.0
+               }
+           ]
+          ```
+6. Check in your source code in your GitHub repo.
 
 
 Personal Note/ Lesson Learned:
